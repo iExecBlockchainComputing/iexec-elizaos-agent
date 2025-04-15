@@ -1,94 +1,38 @@
-# Eliza
+# ElizaOS Confidential Agent iApp
 
-## Edit the character files
+[![iExec TDX](https://img.shields.io/badge/iExec-TDX_Workerpool-00b4cc)](https://docs.iex.ec/tdx)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
-Open `src/character.ts` to modify the default character. Uncomment and edit.
+Execute ElizaOS AI agents with full confidentiality in iExec TDX Trusted Execution Environments (TEEs).
 
-### Custom characters
+![](image.png)
 
-To load custom characters instead:
-- Use `pnpm start --characters="path/to/your/character.json"`
-- Multiple character files can be loaded simultaneously
+## Overview
 
-### Add clients
-```
-# in character.ts
-clients: [Clients.TWITTER, Clients.DISCORD],
+This iExec Application (iApp) runs ElizaOS AI agents securely in Intel TDX enclaves, providing:
 
-# in character.json
-clients: ["twitter", "discord"]
-```
+- 🔒 Model integrity verification (SHA-256)
+- 🛡️ Full AI stack isolation (ElizaOS + model)
+- 🔐 Protected character datasets and credentials
 
-## Duplicate the .env.example template
+## Quick Start
 
-```bash
-cp .env.example .env
-```
+### Prerequisites
 
-\* Fill out the .env file with your own values.
+- iExec account with access to TDX worker pool
+- Deployed character dataset
+- Configured requester secrets
 
-### Add login credentials and keys to .env
-```
-DISCORD_APPLICATION_ID="discord-application-id"
-DISCORD_API_TOKEN="discord-api-token"
-...
-OPENROUTER_API_KEY="sk-xx-xx-xxx"
-...
-TWITTER_USERNAME="username"
-TWITTER_PASSWORD="password"
-TWITTER_EMAIL="your@email.com"
-```
-
-## Install dependencies and start your agent
+### Execution Command
 
 ```bash
-pnpm i && pnpm start
-```
-Note: this requires node to be at least version 22 when you install packages and run the agent.
-
-## Run with Docker
-
-### Build and run Docker Compose (For x86_64 architecture)
-
-#### Edit the docker-compose.yaml file with your environment variables
-
-```yaml
-services:
-    eliza:
-        environment:
-            - OPENROUTER_API_KEY=blahdeeblahblahblah
-```
-
-#### Run the image
-
-```bash
-docker compose up
-```
-
-### Build the image with Mac M-Series or aarch64
-
-Make sure docker is running.
-
-```bash
-# The --load flag ensures the built image is available locally
-docker buildx build --platform linux/amd64 -t eliza-starter:v1 --load .
-```
-
-#### Edit the docker-compose-image.yaml file with your environment variables
-
-```yaml
-services:
-    eliza:
-        environment:
-            - OPENROUTER_API_KEY=blahdeeblahblahblah
-```
-
-#### Run the image
-
-```bash
-docker compose -f docker-compose-image.yaml up
-```
-
-# Deploy with Railway
-
-[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/template/aW47_j)
+iexec app run 0xe593dE51ac433234f11A9a9F4b6Eed3f84B4bEBB \
+  --args "qwen2.5:0.5b a8b0c5157701" \
+  --tag tee,tdx \
+  --dataset 0xc755A964351741D6f758563A5967C5d2E1046390 \
+  --secret 1=IEXEC_REQUESTER_SECRET_1 \
+  --secret 2=IEXEC_REQUESTER_SECRET_2 \
+  --secret 3=IEXEC_REQUESTER_SECRET_3 \
+  --workerpool tdx-labs.pools.iexec.eth \
+  --skip-preflight-check \
+  --watch

@@ -1,10 +1,7 @@
 FROM node:23.3.0-slim
 
-RUN apt-get update && apt-get install -y curl && apt-get clean
-
-RUN curl -m 900 -L https://ollama.com/download/ollama-linux-amd64.tgz -o /tmp/ollama.tgz && \
-    tar -C /usr -xzf /tmp/ollama.tgz && \
-    rm /tmp/ollama.tgz
+COPY ollama-linux-amd64.tgz ./
+RUN tar -C /usr -xzf ollama-linux-amd64.tgz && rm ollama-linux-amd64.tgz
 
 WORKDIR /app
 

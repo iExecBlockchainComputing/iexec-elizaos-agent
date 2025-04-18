@@ -29,7 +29,6 @@ COPY .env.template ./
 # Copy the rest of the application code
 COPY ./src ./src
 RUN cp .env.template .env
-RUN mkdir /app/characters/
 
 # Install dependencies and build the project
 RUN pnpm install 

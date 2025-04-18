@@ -5,26 +5,6 @@ echo 'eliza agent' > $IEXEC_OUT/result.txt
 touch $IEXEC_OUT/stderr.txt
 touch $IEXEC_OUT/stdout.txt
 
-# check if dataset (character) file exists
-if [ ! -f "$IEXEC_IN/$IEXEC_DATASET_FILENAME" ]; then
-    echo "❌ character file not found: $IEXEC_IN/$IEXEC_DATASET_FILENAME" >> $IEXEC_OUT/stderr.txt
-    exit 0
-fi
-echo "📄 Found character file: $IEXEC_IN/$IEXEC_DATASET_FILENAME" >> $IEXEC_OUT/stdout.txt
-
-# copy to /app/characters/character.json
-jq . "$IEXEC_IN/$IEXEC_DATASET_FILENAME" > /app/characters/character.json
-
-echo "🟢 character.json created in /app/characters/" >> $IEXEC_OUT/stdout.txt
-
-# ensure the character file is a valid JSON
-if ! jq empty "/app/characters/character.json" 2>> $IEXEC_OUT/stderr.txt; then
-    echo "❌ The character file is not a valid JSON: /app/characters/character.json" >> $IEXEC_OUT/stderr.txt
-    exit 0
-fi
-
-echo "🟢 The character is a valid JSON file." >> $IEXEC_OUT/stdout.txt
-
 # Check args
 if [ "$(echo "$1" | wc -w)" -ne 2 ]; then
     echo "❌ The argument must contain exactly two words: MODEL_NAME and EXPECTED_ID." >> $IEXEC_OUT/stderr.txt 
@@ -75,7 +55,7 @@ sed -i "s/TWITTER_EMAIL_TO_REPLACE/$IEXEC_REQUESTER_SECRET_3/" .env
 sed -i "s/OLLAMA_MODEL_NAME_TO_REPLACE/$MODEL_NAME/" .env
 
 echo "🟢 Start Eliza Agent" >> $IEXEC_OUT/stdout.txt
-pnpm start --character="characters/character.json" >> $IEXEC_OUT/stdout.txt 2>> $IEXEC_OUT/stderr.txt &
+pnpm start >> $IEXEC_OUT/stdout.txt 2>> $IEXEC_OUT/stderr.txt &
 ELIZA_PID=$!
 
 # ⏳ Wait for 5 minute

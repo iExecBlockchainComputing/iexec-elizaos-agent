@@ -14,15 +14,13 @@ import net from "net";
 import path from "path";
 import { fileURLToPath } from "url";
 import { initializeDbCache } from "./cache/index.ts";
-import { character } from "./character.ts";
 import { startChat } from "./chat/index.ts";
 import { initializeClients } from "./clients/index.ts";
 import {
   getTokenForProvider,
-  loadCharacters,
-  parseArguments,
 } from "./config/index.ts";
 import { initializeDatabase } from "./database/index.ts";
+import { IExecDataProtectorDeserializer } from '@iexec/dataprotector-deserializer';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -129,14 +127,18 @@ const checkPortAvailable = (port: number): Promise<boolean> => {
 const startAgents = async () => {
   const directClient = new DirectClient();
   let serverPort = parseInt(settings.SERVER_PORT || "3000");
-  const args = parseArguments();
+  let character; 
+  try {
+    const deserializer = new IExecDataProtectorDeserializer();
+    const characterJson = await deserializer.getValue('character', 'string');
+    character = JSON.parse(characterJson);
+    console.log("Character JSON:", character);
 
-  let charactersArg = args.characters || args.character;
-  let characters = [character];
-
-  if (charactersArg) {
-    characters = await loadCharacters(charactersArg);
+  } catch (error) {
+    console.error("Error parsing character JSON:", error);
+    process.exit(0);
   }
+  let characters = [character];
   try {
     for (const character of characters) {
       await startAgent(character, directClient as DirectClient);

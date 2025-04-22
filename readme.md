@@ -1,22 +1,38 @@
-# Eliza Agent
+# ElizaOS Confidential Agent iApp
 
-After cloning the repo, go to the directory and download ollama via 
+[![iExec TDX](https://img.shields.io/badge/iExec-TDX_Workerpool-00b4cc)](https://docs.iex.ec/tdx)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
-```sh
-curl -m 900 -L https://ollama.com/download/ollama-linux-amd64.tgz -o ollama-linux-amd64.tgz
-```
+Execute ElizaOS AI agents with full confidentiality in iExec TDX Trusted Execution Environments (TEEs).
 
+![](image.png)
 
-Configuration
-```sh
-cp .env.template .env
-```
+## Overview
 
+This iExec Application (iApp) runs ElizaOS AI agents securely in Intel TDX enclaves, providing:
 
-Go to line _26_ and complete with your credentials 
+- 🔒 Model integrity verification (SHA-256)
+- 🛡️ Full AI stack isolation (ElizaOS + model)
+- 🔐 Protected character datasets and credentials
 
-``` sh
-TWITTER_USERNAME=
-TWITTER_PASSWORD=
-TWITTER_EMAIL=
-```
+## Quick Start
+
+### Prerequisites
+
+- iExec account with access to TDX worker pool
+- Deployed character dataset
+- Configured requester secrets
+
+### Execution Command
+
+```bash
+iexec app run 0xe593dE51ac433234f11A9a9F4b6Eed3f84B4bEBB \
+  --args "qwen2.5:0.5b a8b0c5157701" \
+  --tag tee,tdx \
+  --dataset 0xc755A964351741D6f758563A5967C5d2E1046390 \
+  --secret 1=IEXEC_REQUESTER_SECRET_1 \
+  --secret 2=IEXEC_REQUESTER_SECRET_2 \
+  --secret 3=IEXEC_REQUESTER_SECRET_3 \
+  --workerpool tdx-labs.pools.iexec.eth \
+  --skip-preflight-check \
+  --watch

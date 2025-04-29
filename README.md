@@ -7,7 +7,6 @@ Execute ElizaOS AI agents with full confidentiality in iExec TDX Trusted Executi
 
 🧵 Use case: In this demo, the agent impersonates a custom character and posts tweets on the user’s X (Twitter) account based on the character’s personality and configuration.
 
-
 ## 🧠 Overview
 
 This iExec Application (iApp) runs ElizaOS AI agents securely inside Intel TDX enclaves, providing:
@@ -16,8 +15,7 @@ This iExec Application (iApp) runs ElizaOS AI agents securely inside Intel TDX e
 - 🛡️ Full isolation of the AI stack (Eliza Agent + model)
 - 🔐 Support for protected character datasets and user credentials
   
-
-![](image.png)
+![Overview of ElizaOS AI agent architecture](image.png)
 
 ---
 
@@ -56,7 +54,6 @@ iexec_in/character
 
 Modify it to fit your custom personality, prompt, and configuration.
 
-
 ### 3. Build the Docker Image
 
 Build the Docker image locally:
@@ -66,13 +63,14 @@ docker build -t eliza .
 ```
 
 ### 4. Run the iApp Locally
+
 Run the app using Docker:
 
 ```bash
 docker run --rm --name eliza \
   -v ./iexec_in:/iexec_in \
   -v ./iexec_out:/iexec_out \
-  -e IEXEC_DATASET_FILENAME=eliza.char \
+  -e IEXEC_DATASET_FILENAME=character \
   -e IEXEC_IN=/iexec_in \
   -e IEXEC_OUT=/iexec_out \
   -e IEXEC_REQUESTER_SECRET_1="your-username" \
@@ -84,6 +82,9 @@ docker run --rm --name eliza \
 ➡️ Result: The agent will generate and post content on your X (Twitter) profile according to the personality and behavior defined in your custom character file.
 
 ### 🚀 Run on iExec TDX Production
+
+Once you have successfully tested the iApp locally and verified that tweets are being posted, you can deploy the iApp to iExec TDX production. Follow the [iExec documentation](https://protocol.docs.iex.ec/) for detailed steps.
+
 When you're ready to run on iExec TDX (application deployed, dataset deployed, and requester secrets pushed):
 
 ```bash

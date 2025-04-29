@@ -1,19 +1,20 @@
 FROM node:23.3.0-slim
 
-COPY ollama-linux-amd64.tgz ./
-RUN tar -C /usr -xzf ollama-linux-amd64.tgz && rm ollama-linux-amd64.tgz
-
-WORKDIR /app
 
 # Install pnpm globally and install necessary build tools
 RUN npm install -g pnpm@9.15.1 && \
-    apt-get update && \
-    apt-get install -y jq sudo curl && \
-    apt-get clean && \
-    apt-get install -y git curl procps python3 make g++ && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+apt-get update && \
+apt-get install -y jq sudo curl && \
+apt-get clean && \
+apt-get install -y git curl procps python3 make g++ && \
+apt-get clean && \
+rm -rf /var/lib/apt/lists/*
 
+RUN curl -L https://ollama.com/download/ollama-linux-amd64.tgz -o ollama-linux-amd64.tgz && \
+    tar -C /usr -xzf ollama-linux-amd64.tgz && \
+    rm ollama-linux-amd64.tgz
+
+WORKDIR /app
 # Set Python 3 as the default python
 RUN ln -s /usr/bin/python3 /usr/bin/python
 

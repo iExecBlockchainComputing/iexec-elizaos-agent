@@ -69,13 +69,9 @@ docker build -t eliza .
 
 ### 4. Initialize configuration
 
-Copy the `.env.template` file :
+You can edit and adjust the `.env.template` to suit your needs, **but do not touch lines 5 to 24**. For testing purposes, we recommend that you leave the file as is. Values with a `_TO_REPLACE` suffix will be replaced at runtime with automatically injected secrets. 
 
-```bash
-cp .env.template .env
-```
-> [!IMPORTANT]
-> **You can edit and adjust the .env to suit your needs, but do not touch lines 5 to 24. For testing purposes, we recommend that you leave the file as is. Values with a `_TO_REPLACE` suffix will be replaced at runtime with automatically injected secrets.**
+Moreover, this file will be used in the docker build and automatically renamed to .env, so there's no need to do this (you can see line 29 of the `Dockerfile`).
 
 ### 5. Run the iApp Locally
 
@@ -89,8 +85,8 @@ docker run --rm --name eliza \
   -e IEXEC_IN=/iexec_in \
   -e IEXEC_OUT=/iexec_out \
   -e IEXEC_REQUESTER_SECRET_1="twitter-username" \
-  -e IEXEC_REQUESTER_SECRET_2="twitter-email@example.com" \
-  -e IEXEC_REQUESTER_SECRET_3="twitter-password" \
+  -e IEXEC_REQUESTER_SECRET_2="twitter-password" \
+  -e IEXEC_REQUESTER_SECRET_3="twitter-email@example.com" \
   eliza:latest "<model_name> <model_id>"
 ```
 

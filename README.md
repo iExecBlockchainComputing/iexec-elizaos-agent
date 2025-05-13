@@ -67,7 +67,7 @@ Build the Docker image locally:
 docker build -t eliza .
 ```
 
-### 5. Initialize configuration
+### 4. Initialize configuration
 
 Copy the `.env.template` file :
 

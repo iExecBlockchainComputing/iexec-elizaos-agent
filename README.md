@@ -67,7 +67,17 @@ Build the Docker image locally:
 docker build -t eliza .
 ```
 
-### 4. Run the iApp Locally
+### 5. Initialize configuration
+
+Copy the `.env.template` file :
+
+```bash
+cp .env.template .env
+```
+> [!IMPORTANT]
+> **You can edit and adjust the .env to suit your needs, but do not touch lines 5 to 24. For testing purposes, we recommend that you leave the file as is. Values with a `_TO_REPLACE` suffix will be replaced at runtime with automatically injected secrets.**
+
+### 5. Run the iApp Locally
 
 Run the app using Docker:
 

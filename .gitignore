@@ -17,3 +17,8 @@ dist/
 db.sqlite
 .idea
 .tee-cloud
+Makefile
+
+.secrets
+iexec.json
+chain.json

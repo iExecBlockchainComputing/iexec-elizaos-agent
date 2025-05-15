@@ -297,8 +297,8 @@ iexec app run \
   --tag tee,tdx \
   --dataset <DATASET_ADDRESS> \
   --secret 1=twitter-username \
-  --secret 2=twitter-email \
-  --secret 3=twitter-password \
+  --secret 2=twitter-password \
+  --secret 3=twitter-email \
   --workerpool tdx-labs.pools.iexec.eth \
   --skip-preflight-check \
   --watch

@@ -53,7 +53,7 @@ iexec_in/character
 Modify it to fit your custom personality, prompt, and configuration.
 
 > [!IMPORTANT]
-> Lines 3 and 4 in the sample must not be modified, otherwise the agent will not function.
+> Ensure the `clients` and `modelProvider` fields are defined with valid values matching your integration setup.
 ```bash
     "clients": ["twitter"],
     "modelProvider": "ollama",
@@ -182,7 +182,7 @@ The `checksum` of your app is the sha256 digest of the docker image prefixed wit
 ``` bash
 docker pull <docker-hub-user>/eliza:1.0.0 | grep "Digest: sha256:" | sed 's/.*sha256:/0x/'
 ```
-
+remplacer 
 ### 📦 Deploy the application
 
 Deploy the app with the standard command:
@@ -266,7 +266,6 @@ $ cat iexec.json
     "name": "Encrypted character dataset",
     "multiaddr": "/ipfs/QmW2WQi7j6c7UgJTarActp7tDNikE4B2qXtFCfLPdsgaTQ",
     "checksum": "<0x-sha256sum-of-the-dataset>" // starts with 0x
-  }
 }
 ```
 
